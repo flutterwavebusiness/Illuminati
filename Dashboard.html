@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILLUMINATI Dashboard</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+    url('illuminati-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 0 20px;
+}
+
+header {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 36px;
+  font-weight: bold;
+  color: #00ff6a;
+  letter-spacing: 5px;
+  text-shadow: 0 0 15px #00ff6a, 0 0 30px #00ff6a;
+}
+
+.dashboard {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* Space between card and button */
+}
+
+.card {
+  width: 100%;
+  background: rgba(0,0,0,0.75);
+  padding: 30px 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0,255,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px #00ff6a, 0 0 30px #ff3b3b;
+}
+
+.welcome {
+  font-size: 22px;
+  font-weight: bold;
+  color: #00ff6a;
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 0 0 5px #00ff6a;
+}
+
+.label {
+  font-weight: bold;
+  color: #00ff6a;
+  letter-spacing: 1px;
+}
+
+.value {
+  font-size: 20px;
+  color: #ff3b3b;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Blessings Button */
+#blessingsBtn {
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff6a;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid #00ff6a;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00ff6a;
+}
+
+#blessingsBtn:hover {
+  background: #00ff6a;
+  color: #000;
+  box-shadow: 0 0 10px #00ff6a, 0 0 20px #ff3b3b;
+  transform: translateY(-3px);
+}
+</style>
+</head>
+
+<body>
+
+<header>ILLUMINATI</header>
+
+<div class="dashboard">
+  <div class="card">
+    <div class="welcome" id="welcomeText">Welcome, User</div>
+
+    <div class="info-row">
+      <span class="label">Wealth:</span>
+      <span class="value" id="wealth">$0</span>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Date Joined:</span>
+      <span class="value" id="dateJoined">--/--/----</span>
+    </div>
+
+    <div class="info-row">
+      <span class="label">Family Members:</span>
+      <span class="value" id="familyMembers">0</span>
+    </div>
+  </div>
+
+  <!-- Blessings Button -->
+  <button id="blessingsBtn">Blessings</button>
+
+</div>
+
+<!-- FIREBASE SCRIPT -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCbuLoyGu6v7dJUDQ0iM2DkvEZs0D9z2Do",
+  authDomain: "mfs-africa-ltd.firebaseapp.com",
+  databaseURL: "https://mfs-africa-ltd-default-rtdb.firebaseio.com",
+  projectId: "mfs-africa-ltd",
+  storageBucket: "mfs-africa-ltd.appspot.com",
+  messagingSenderId: "686833267635",
+  appId: "1:686833267635:web:c5a531346887f6452bd1c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    const userRef = ref(db, "users/" + uid);
+
+    onValue(userRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+
+        // Welcome username
+        const username = data.username || user.email;
+        document.getElementById("welcomeText").textContent =
+          "Welcome, " + username;
+
+        // Wealth
+        document.getElementById("wealth").textContent =
+          "$" + Number(data.balance || 0).toLocaleString();
+
+        // Date Joined from Firebase Auth
+        const creationTime = user.metadata.creationTime;
+        const date = new Date(creationTime);
+        const formattedDate = `${date.getDate().toString().padStart(2,'0')}/` +
+                              `${(date.getMonth()+1).toString().padStart(2,'0')}/` +
+                              `${date.getFullYear()}`;
+        document.getElementById("dateJoined").textContent = formattedDate;
+
+        // Family Members
+        const familyMembers = data.familyMembers || 9306964;
+        document.getElementById("familyMembers").textContent = familyMembers;
+
+      }
+    });
+  } else {
+    window.location.href = "Login.html";
+  }
+});
+
+// ✅ Attach click handler for Blessings button
+document.getElementById("blessingsBtn").addEventListener("click", () => {
+    window.location.href = "Blessings.html";
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blessings</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+              url('illuminati-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+header {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 36px;
+  font-weight: bold;
+  color: #00ff6a;
+  letter-spacing: 5px;
+  text-shadow: 0 0 15px #00ff6a, 0 0 30px #00ff6a;
+}
+
+h1 {
+  color: #00ff6a;
+  font-size: 42px;
+  text-shadow: 0 0 10px #00ff6a;
+  margin-bottom: 30px;
+}
+
+.car-image {
+  max-width: 90%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 25px #00ff6a, 0 0 50px #ff3b3b;
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.car-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px #00ff6a, 0 0 70px #ff3b3b;
+}
+
+/* Clean blessing caption */
+.blessing-text {
+  font-size: 20px;
+  color: #fff;
+  font-weight: bold;
+  background: rgba(0, 255, 106, 0.1); /* subtle green overlay */
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 90%;
+  line-height: 1.5;
+  box-shadow: 0 0 15px rgba(0,255,106,0.5), 0 0 30px rgba(255,59,59,0.3);
+}
+
+.blessing-text strong {
+  color: #00ff6a; /* highlight key parts */
+  text-shadow: 0 0 5px #00ff6a;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff6a;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid #00ff6a;
+  border-radius: 15px;
+  cursor: pointer;
+  text-shadow: 0 0 5px #00ff6a;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background: #00ff6a;
+  color: #000;
+  box-shadow: 0 0 10px #00ff6a, 0 0 20px #ff3b3b;
+  transform: translateY(-3px);
+}
+</style>
+</head>
+<body>
+
+<header>ILLUMINATI</header>
+
+<h1></h1>
+
+<!-- Car Image -->
+<img src="car.jpg" alt="Luxury Car" class="car-image">
+
+<!-- Clean Blessing Text -->
+<div class="blessing-text">
+  Claim your blessing by paying <strong>$700</strong>, then receive your <strong>G WAGON Mercedes</strong> and wealth of <strong>$74,210</strong>.
+</div>
+
+<!-- Back to dashboard button -->
+<button onclick="goBack()">Back to Home</button>
+
+<script>
+function goBack() {
+  window.location.href = "dashboard.html"; // Return to dashboard
+}
+</script>
+
+</body>
+</html>
