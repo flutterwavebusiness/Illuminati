@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILLUMINATI Login</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+    url('illuminati-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.icon {
+  position: relative;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.icon .up {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #00ff6a;
+  transform: rotate(-30deg);
+  top: 15px;
+  left: 50%;
+  margin-left: -50px;
+}
+
+.icon .down {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: #ff3b3b;
+  transform: rotate(30deg);
+  top: 15px;
+  left: 50%;
+}
+
+h1 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.input-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.lock {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.error {
+  color: #ff3b3b;
+  text-align: left;
+  font-size: 14px;
+  margin-top: 8px;
+  display: none;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background: white;
+  color: #ff3b3b;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.arrows {
+  margin-top: 30px;
+}
+
+.arrows div {
+  width: 20px;
+  height: 20px;
+  border-left: 3px solid #ff3b3b;
+  border-bottom: 3px solid #ff3b3b;
+  transform: rotate(-45deg);
+  margin: 5px auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="icon">
+    <span class="up"></span>
+    <span class="down"></span>
+  </div>
+
+  <h1>ILLUMINATI</h1>
+  <p class="subtitle">Enter Key</p>
+
+  <div class="input-box">
+    <span class="lock">🔒</span>
+    <input type="password" id="accessKey" placeholder="Enter access key">
+  </div>
+
+  <p class="error" id="errorMsg">Incorrect key</p>
+
+  <button class="login-btn" onclick="login()">LOGIN</button>
+
+  <div class="arrows">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+// ✅ Use your actual Firebase config here
+const firebaseConfig = {
+  apiKey: "AIzaSyCbuLoyGu6v7dJUDQ0iM2DkvEZs0D9z2Do",
+  authDomain: "mfs-africa-ltd.firebaseapp.com",
+  databaseURL: "https://mfs-africa-ltd-default-rtdb.firebaseio.com",
+  projectId: "mfs-africa-ltd",
+  storageBucket: "mfs-africa-ltd.appspot.com",
+  messagingSenderId: "686833267635",
+  appId: "1:686833267635:web:c5a531346887f6452bd1c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔑 Correct key for dashboard login
+const CORRECT_KEY = "096521";
+
+// The Firebase account to sign in automatically
+const USER_EMAIL = "abdulhamid1@gmail.com";
+const USER_PASSWORD = "654321";
+
+window.login = function() {
+  const input = document.getElementById("accessKey").value;
+  const error = document.getElementById("errorMsg");
+
+  if (input === CORRECT_KEY) {
+    signInWithEmailAndPassword(auth, USER_EMAIL, USER_PASSWORD)
+      .then(() => {
+        error.style.display = "none";
+        window.location.href = "dashboard.html";
+      })
+      .catch((err) => {
+        error.textContent = "Firebase login failed: " + err.message;
+        error.style.display = "block";
+      });
+  } else {
+    error.textContent = "Incorrect key";
+    error.style.display = "block";
+  }
+};
+</script>
+
+</body>
+</html>
